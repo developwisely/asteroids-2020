@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float impulseSpeed = 500f;
-    public float maxSpeed = 200f;
-    public float rotateAngle = 200f;
+    // temporary until weapon system
+    public GameObject bullet;
+
+    // Player speeds
+    public float thrustSpeed = 100f;
+    public float rotateSpeed = 200f;
+    public float maxSpeed = 150f;
 
     // Jets
     public GameObject jetImpulse;
@@ -20,47 +26,51 @@ public class Player : MonoBehaviour
     public GameObject primaryBulletSpawnRight;
     public GameObject secondaryBulletSpawn;
 
-    private Rigidbody _rb;
 
-    // Start is called before the first frame update
+    private Rigidbody _rb;
+    private float rotation = 0;
+    private float acceleration = 0;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        bullet.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Impulse(Input.GetAxisRaw("Vertical"));
-        Rotate(Input.GetAxisRaw("Horizontal"));
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown("space"))
         {
-            // fire weapon
+            handleWeaponFire();
         }
     }
 
-    private void Impulse(float activeImpulse)
+    private void FixedUpdate()
     {
-        if (activeImpulse == 1)
-        {
-            jetImpulse.SetActive(true);
-            _rb.velocity += transform.forward * impulseSpeed * Time.deltaTime;
-        }
-        else
-        {
-            jetImpulse.SetActive(false);
-        }
+        handleRotation();
+        handleThrust();
     }
 
-    private void Rotate(float rotateDirection)
+    private void handleWeaponFire()
     {
-        if (rotateDirection > 0)
+        // temporary until weapon system
+        GameObject bulletClone = Instantiate(bullet, secondaryBulletSpawn.transform.position, transform.rotation);
+        bulletClone.GetComponent<Rigidbody>().velocity = bulletClone.transform.forward * 2500;
+        bulletClone.GetComponent<Bullet>().setAutoDestroyTimer();
+        bulletClone.SetActive(true);
+    }
+
+    private void handleRotation()
+    {
+        rotation = Input.GetAxisRaw("Horizontal") * rotateSpeed * Time.deltaTime;
+        transform.Rotate(0, rotation, 0);
+
+        if (rotation > 0)
         {
             jetRotateClockwise.SetActive(true);
             jetRotateCounterClockwise.SetActive(false);
         }
-        else if (rotateDirection < 0)
+        else if (rotation < 0)
         {
             jetRotateCounterClockwise.SetActive(true);
             jetRotateClockwise.SetActive(false);
@@ -70,8 +80,20 @@ public class Player : MonoBehaviour
             jetRotateClockwise.SetActive(false);
             jetRotateCounterClockwise.SetActive(false);
         }
+    }
 
-        var rotation = Quaternion.AngleAxis(rotateDirection * rotateAngle * Time.deltaTime, Vector3.up);
-        transform.forward = rotation * transform.forward;
+    private void handleThrust()
+    {
+        acceleration = thrustSpeed * Input.GetAxisRaw("Vertical");
+        if (acceleration > 0)
+        {
+            jetImpulse.SetActive(true);
+            _rb.AddForce(transform.forward * acceleration);
+            _rb.velocity = new UnityEngine.Vector3(Mathf.Clamp(_rb.velocity.x, -maxSpeed, maxSpeed), 0, Mathf.Clamp(_rb.velocity.z, -maxSpeed, maxSpeed));
+        }
+        else
+        {
+            jetImpulse.SetActive(false);
+        }
     }
 }
