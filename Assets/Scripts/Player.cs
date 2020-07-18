@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     public float rotateAngle = 200f;
 
     public Transform bulletSpawn;
+    public GameObject jetImpulse;
+    public GameObject jetRotateClockwise;
+    public GameObject jetRotateCounterClockwise;
 
     private Rigidbody _rb;
 
@@ -21,11 +24,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxisRaw("Vertical") == 1)
-        {
-            Impulse();
-        }
-
+        Impulse(Input.GetAxisRaw("Vertical"));
         Rotate(Input.GetAxisRaw("Horizontal"));
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -34,13 +33,37 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Impulse()
+    private void Impulse(float activeImpulse)
     {
-        _rb.velocity += transform.forward * impulseSpeed * Time.deltaTime;
+        if (activeImpulse == 1)
+        {
+            jetImpulse.SetActive(true);
+            _rb.velocity += transform.forward * impulseSpeed * Time.deltaTime;
+        }
+        else
+        {
+            jetImpulse.SetActive(false);
+        }   
     }
 
     private void Rotate(float rotateDirection)
     {
+        if (rotateDirection > 0)
+        {
+            jetRotateClockwise.SetActive(true);
+            jetRotateCounterClockwise.SetActive(false);
+        }
+        else if (rotateDirection < 0)
+        {
+            jetRotateCounterClockwise.SetActive(true);
+            jetRotateClockwise.SetActive(false);
+        }
+        else
+        {
+            jetRotateClockwise.SetActive(false);
+            jetRotateCounterClockwise.SetActive(false);
+        }
+
         var rotation = Quaternion.AngleAxis(rotateDirection * rotateAngle * Time.deltaTime, Vector3.up);
         transform.forward = rotation * transform.forward;
     }
