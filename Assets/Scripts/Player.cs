@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float impulseSpeed = 500f;
+    public float maxSpeed = 200f;
     public float rotateAngle = 200f;
 
     // Jets
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour
         else
         {
             jetImpulse.SetActive(false);
-        }   
+        }
     }
 
     private void Rotate(float rotateDirection)
