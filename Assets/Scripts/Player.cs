@@ -8,10 +8,15 @@ public class Player : MonoBehaviour
     public float impulseSpeed = 500f;
     public float rotateAngle = 200f;
 
-    public Transform bulletSpawn;
+    // Jets
     public GameObject jetImpulse;
     public GameObject jetRotateClockwise;
     public GameObject jetRotateCounterClockwise;
+
+    // Weapon Spawn points
+    public GameObject primaryBulletSpawnLeft;
+    public GameObject primaryBulletSpawnRight;
+    public GameObject secondaryBulletSpawn;
 
     private Rigidbody _rb;
 
