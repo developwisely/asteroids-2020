@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     public void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.velocity = transform.forward * 2500;
+        _rb.velocity = transform.forward * 500;
     }
 
     public void setAutoDestroyTimer()

@@ -6,11 +6,8 @@ using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    // temporary until weapon system
-    public GameObject bullet;
-
     // Player speeds
     public float thrustSpeed = 100f;
     public float rotateSpeed = 200f;
@@ -21,12 +18,6 @@ public class Player : MonoBehaviour
     public GameObject jetRotateClockwise;
     public GameObject jetRotateCounterClockwise;
 
-    // Weapon Spawn points
-    public GameObject primaryBulletSpawnLeft;
-    public GameObject primaryBulletSpawnRight;
-    public GameObject secondaryBulletSpawn;
-
-
     private Rigidbody _rb;
     private float rotation = 0;
     private float acceleration = 0;
@@ -34,30 +25,12 @@ public class Player : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        bullet.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            handleWeaponFire();
-        }
     }
 
     private void FixedUpdate()
     {
         handleRotation();
         handleThrust();
-    }
-
-    private void handleWeaponFire()
-    {
-        // temporary until weapon system
-        GameObject bulletClone = Instantiate(bullet, secondaryBulletSpawn.transform.position, transform.rotation);
-        bulletClone.GetComponent<Rigidbody>().velocity = bulletClone.transform.forward * 2500;
-        bulletClone.GetComponent<Bullet>().setAutoDestroyTimer();
-        bulletClone.SetActive(true);
     }
 
     private void handleRotation()
