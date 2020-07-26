@@ -7,13 +7,18 @@ namespace Arsenal
     public class FirePrimary : MonoBehaviour
     {
         [SerializeField]
+        // Array of projectiles to choose from
         public GameObject[] projectiles;
+
         [Header("Missile spawns at attached game objects")]
+        // Left and Right cannon spawn points
         public Transform leftSpawnPosition;
         public Transform rightSpawnPosition;
-        [HideInInspector]
-        public int currentProjectile = 0;
 
+        [HideInInspector]
+        // Currently selected projectile
+        public int currentProjectile = 0;
+        
         private float _canFireIn;
         private Rigidbody _playerRb;
         private GameObject _selectedProjectile;
