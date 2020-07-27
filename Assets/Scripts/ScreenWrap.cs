@@ -5,52 +5,71 @@ using UnityEngine;
 public class ScreenWrap : MonoBehaviour
 {
     public float offset;
-    private bool _active = false;
 
-    private void Awake()
+    private bool _active = false;
+    private bool _isWrappingX = false;
+    private bool _isWrappingZ = false;
+
+    private Renderer[] renderers;
+
+    private void Start()
     {
-        Vector3 cameraPosition = Camera.main.transform.position;
-        float cameraHeight = Camera.main.orthographicSize;
-        //Debug.Log(cameraPosition);
-        //Debug.Log(cameraHeight);
-        //Debug.Log(Screen.width);
-        //Debug.Log(Screen.height);
-        //Debug.Log(Camera.main.ScreenToWorldPoint(new Vector3(cameraPosition.x, 0, cameraHeight)));
-        //Debug.Log(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, cameraPosition.y)));
-        //Debug.Log(Camera.main.ScreenToWorldPoint(new Vector3(-cameraPosition.x, cameraPosition.y, -cameraPosition.z)));
-        //Vector3 bottomLeftCameraPoint = Camera.main.ScreenToWorldPoint(new Vector3(cameraPosition.x, 0, cameraHeight));
-        //Vector3 topRightCameraPoint = Camera.main.ScreenToWorldPoint(new Vector3(cameraPosition.x, 0, cameraPosition.z));
+        renderers = GetComponentsInChildren<Renderer>();
     }
     private void Update()
     {
-        if (!_active) return;
+        //if (!_active) return;
 
+        if (IsVisible())
+        {
+            _isWrappingX = false;
+            _isWrappingZ = false;
+            return;
+        }
+
+        if (_isWrappingX && _isWrappingZ)
+        {
+            return;
+        }
+
+        Wrap();
+    }
+
+    // TODO: Something is wrong with this script as it's not immediately wrapping - watch asteroids carefully to see
+    private void Wrap()
+    {
         // Normalized position in world based on viewport (0.0 - 1.0)
-        Vector3 currentPosition = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 newPosition = transform.position;
 
-        // Crossed into the wrap zone positive X-axis (Right)
-        if (currentPosition.x > 1.0)
+        // Wrap X-axis (Left/Right)
+        if (!_isWrappingX && (viewportPosition.x > 1.0 || viewportPosition.x < 0.0))
         {
-
+            newPosition.x = -newPosition.x;
+            _isWrappingX = true;
         }
 
-        // Crossed into the wrap zone negative X-axis (Left)
-        if (currentPosition.x < 0.0)
+        // Wrap Z-axis (Top/Bottom)
+        else if (!_isWrappingZ && (viewportPosition.y > 1.0 || viewportPosition.y < 0.0))
         {
-
+            newPosition.z = -newPosition.z;
+            _isWrappingZ = true;
         }
 
-        // Crossed into the wrap zone positive Z-axis (Top)
-        if (currentPosition.z > 1.0)
-        {
+        transform.position = newPosition;
+    }
 
+    private bool IsVisible()
+    {
+        foreach (var renderer in renderers)
+        {
+            if (renderer.isVisible)
+            {
+                return true;
+            }
         }
 
-        // Crossed into the wrap zone negative Z-axis (Bottom)
-        if (currentPosition.z < 1.0)
-        {
-
-        }
+        return false;
     }
 
     public bool IsActive()

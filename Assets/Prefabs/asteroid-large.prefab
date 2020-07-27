@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 7134408240822744734}
   - component: {fileID: 5664488704219219189}
   - component: {fileID: 363754178}
+  - component: {fileID: -4539610814729439058}
   m_Layer: 0
   m_Name: asteroid-large
   m_TagString: Enemy
@@ -89,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 7134408240817298446}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -28.717394, y: 0, z: 53}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 10.5, y: 11, z: 11}
   m_Children:
   - {fileID: 7134408240817665878}
   m_Father: {fileID: 0}
@@ -109,7 +110,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &5664488704219219189
 MonoBehaviour:
@@ -123,12 +124,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480d5f55a34608e4aa7f1734340cc8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 2
   minSpeed: 5
   maxSpeed: 20
   minTumble: 0.25
   maxTumble: 1
-  health: 8
+  health: 6
   pointValue: 100
+  breakParticle: {fileID: 125216, guid: aae21d2e6cefc7b4ba89c4c6e2c2440c, type: 3}
 --- !u!64 &363754178
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -143,6 +146,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: c8e5dbd0279404f47898113147f8f42f, type: 3}
+--- !u!114 &-4539610814729439058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134408240817298446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032cf7b2f55745649866622d46589d9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 0
 --- !u!1 &7134408240817461580
 GameObject:
   m_ObjectHideFlags: 0
