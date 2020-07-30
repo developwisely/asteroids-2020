@@ -755,15 +755,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1225016328, guid: 63e47108ea5c65f43a7f4823085b3533, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1225016329, guid: 63e47108ea5c65f43a7f4823085b3533, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1225016330, guid: 63e47108ea5c65f43a7f4823085b3533, type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7598066987325602664, guid: 63e47108ea5c65f43a7f4823085b3533,
         type: 3}

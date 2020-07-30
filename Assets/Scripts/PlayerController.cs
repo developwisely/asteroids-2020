@@ -70,8 +70,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision hit)
+    private void OnTriggerEnter(Collider other)
     {
-        if (hit.gameObject.tag == "Projectile") return;
+        if (other.tag == "Projectile") return;
     }
 }
