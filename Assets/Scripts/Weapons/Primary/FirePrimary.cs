@@ -34,7 +34,7 @@ namespace Arsenal
             // Update cooldown
             _canFireIn -= Time.deltaTime;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButton("Fire1"))
             {
                 HandleProjectileFire();
             }
@@ -58,6 +58,8 @@ namespace Arsenal
                 leftProjectile.GetComponent<Projectile>().AddForce();
                 rightProjectile.GetComponent<Projectile>().AddForce();
             }
+
+            _canFireIn = leftProjectile.GetComponent<Projectile>().fireRate;
         }
     }
 }
