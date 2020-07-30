@@ -49,6 +49,8 @@ namespace Asteroids
         private void AddForce()
         {
             _rb.velocity = transform.forward * Random.Range(minSpeed, maxSpeed);
+
+            // FEATURE: should we change min/max based on level as well?
         }
 
         // Applies a random tumble between minTumble and maxTumble

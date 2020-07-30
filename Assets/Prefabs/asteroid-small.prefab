@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  minSpeed: 10
-  maxSpeed: 60
+  minSpeed: 20
+  maxSpeed: 50
   minTumble: 0.25
   maxTumble: 3
   health: 2

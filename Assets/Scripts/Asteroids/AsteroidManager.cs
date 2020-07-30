@@ -11,7 +11,7 @@ namespace Asteroids
         public GameObject[] asteroids;
 
         // Level manager
-        // private LevelManager _levelManager;
+        private LevelManager _levelManager;
 
         // The number of asteroids currently on screen
         private int _currentNumAsteroids;
@@ -32,7 +32,7 @@ namespace Asteroids
 
         private void Start()
         {
-            //_levelManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<LevelManager>();
+            _levelManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<LevelManager>();
 
             _screenBounds = Camera.main.GetComponentInChildren<ScreenBounds>();
 
@@ -57,7 +57,7 @@ namespace Asteroids
             _canSpawnIn -= Time.deltaTime;
 
             // Check if it's possible to spawn an asteroid via points
-            if (GetTotalAvailableSpawnPoints() > _lowestAsteroidValue)
+            if (GetTotalAvailableSpawnPoints() >= _lowestAsteroidValue)
             {
                 SpawnRandomAsteroid();
             }
@@ -65,8 +65,7 @@ namespace Asteroids
 
         private int GetTotalAvailableSpawnPoints()
         {
-            //return _levelManager.GetMaxAsteroidPoints() - _currentAsteroidPoints;
-            return 200 - _currentAsteroidPoints;
+            return _levelManager.GetMaxAsteroidPoints() - _currentAsteroidPoints;
         }
 
         public void SpawnRandomAsteroid()
@@ -75,20 +74,20 @@ namespace Asteroids
             if (_canSpawnIn > 0) return;
 
             // Max points for the level
-            // _levelManager.GetMaxAsteroidPoints()
-            // var availablePoints = _levelManager.GetMaxAsteroidPoints() - _currentAsteroidPoints
-            // TODO: Implement level manager points
-            int availablePoints = 200;
+            int availablePoints = GetTotalAvailableSpawnPoints();
 
             // Create a pool of asteroids to choose from if the point value is greater than available points
             var randomPool = GetRandomPoolToSpawn(availablePoints);
 
             // Select a random asteroid to spawn
-            int randomIndex = UnityEngine.Random.Range(0, randomPool.Count);
+            int randomIndex = Random.Range(0, randomPool.Count);
 
             // Select random spawn point (off screen)
             Bounds screenBounds = _screenBounds.BOUNDS(); // Camera uses x,y
             Vector3 randomScreenLocation = _screenBounds.RANDOM_ON_SCREEN_LOCATION(); // Camera uses x,y
+
+            Debug.Log("available points " + availablePoints);
+            Debug.Log("pool count " + randomPool.Count);
 
             float x = 0;
             float z = 0;
@@ -120,8 +119,6 @@ namespace Asteroids
             }
 
             Vector3 randomPosition = new Vector3(x, 0, z);
-            
-
 
             // Spawn the Asteroid
             SpawnAsteroid(randomPool[randomIndex], randomPosition);
@@ -138,6 +135,10 @@ namespace Asteroids
             // Update counters
             _currentAsteroidPoints += newAsteroid.GetComponent<Asteroid>().pointValue;
             _currentNumAsteroids++;
+
+            Debug.Log("SPAWN NEW ASTEROID --------------------");
+            Debug.Log("Type: " + newAsteroid.name);
+            Debug.Log("_currentAsteroidPoints " + _currentAsteroidPoints);
 
             // Return a reference
             return newAsteroid;
@@ -162,11 +163,14 @@ namespace Asteroids
             // Update counters
             _currentAsteroidPoints -= pointValue;
             _currentNumAsteroids--;
+            _levelManager.UpdatePlayerPoints(pointValue);
+
+            Debug.Log("_currentAsteroidPoints " + _currentAsteroidPoints);
 
             // Handle breaking into new asteroids
             if (type == AsteroidTypes.Medium || type == AsteroidTypes.Large)
             {
-                BreakAsteroid(type, position, pointValue);
+                //BreakAsteroid(type, position, pointValue);
             }
         }
 
