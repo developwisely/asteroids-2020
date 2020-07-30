@@ -69,4 +69,9 @@ public class PlayerController : MonoBehaviour
             jetImpulse.SetActive(false);
         }
     }
+
+    private void OnCollisionEnter(Collision hit)
+    {
+        if (hit.gameObject.tag == "Projectile") return;
+    }
 }

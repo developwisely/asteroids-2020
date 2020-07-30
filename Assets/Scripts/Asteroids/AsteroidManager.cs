@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asteroids
@@ -28,10 +25,17 @@ namespace Asteroids
         // The rate at which asteroids spawn (in seconds)
         public float spawnRate = 3;
         private float _canSpawnIn;
+        private float _spawnOffsetFromBounds = 20; // distance from bounds of camera to spawn
+
+        // Camera bounds
+        private ScreenBounds _screenBounds;
 
         private void Start()
         {
             //_levelManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<LevelManager>();
+
+            _screenBounds = Camera.main.GetComponentInChildren<ScreenBounds>();
+
             _currentNumAsteroids = 0;
             _currentAsteroidPoints = 0;
 
@@ -80,11 +84,44 @@ namespace Asteroids
             var randomPool = GetRandomPoolToSpawn(availablePoints);
 
             // Select a random asteroid to spawn
-            int randomIndex = Random.Range(0, randomPool.Count);
+            int randomIndex = UnityEngine.Random.Range(0, randomPool.Count);
 
             // Select random spawn point (off screen)
-            // TODO: use outer bounds of map
-            Vector3 randomPosition = new Vector3(50, 0, 50);
+            Bounds screenBounds = _screenBounds.BOUNDS(); // Camera uses x,y
+            Vector3 randomScreenLocation = _screenBounds.RANDOM_ON_SCREEN_LOCATION(); // Camera uses x,y
+
+            float x = 0;
+            float z = 0;
+            switch(Random.Range(0, 4))
+            {
+                // Top
+                case 0:
+                    x = randomScreenLocation.x;
+                    z = screenBounds.min.z - _spawnOffsetFromBounds;
+                    break;
+
+                // Right
+                case 1:
+                    x = screenBounds.max.x + _spawnOffsetFromBounds;
+                    z = randomScreenLocation.z;
+                    break;
+
+                // Bottom
+                case 2:
+                    x = randomScreenLocation.x;
+                    z = screenBounds.max.z + _spawnOffsetFromBounds;
+                    break;
+
+                // Left
+                case 3:
+                    x = screenBounds.min.x - _spawnOffsetFromBounds;
+                    z = randomScreenLocation.z;
+                    break;
+            }
+
+            Vector3 randomPosition = new Vector3(x, 0, z);
+            
+
 
             // Spawn the Asteroid
             SpawnAsteroid(randomPool[randomIndex], randomPosition);
@@ -160,7 +197,7 @@ namespace Asteroids
             while (breakPoolPoints > _lowestAsteroidValue && spawn)
             {
                 // Pull a random qualified asteroid
-                int randomIndex = Random.Range(0, randomPool.Count);
+                int randomIndex = UnityEngine.Random.Range(0, randomPool.Count);
 
                 // Add asteroid to spawn pool
                 asteroidsToSpawn.Add(randomPool[randomIndex]);

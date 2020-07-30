@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class ScreenBounds : MonoBehaviour
@@ -64,34 +61,23 @@ public class ScreenBounds : MonoBehaviour
     }
 
     // Gets a random on screen point
-    static public Vector3 RANDOM_ON_SCREEN_LOC
+    public Vector3 RANDOM_ON_SCREEN_LOCATION()
     {
-        get
-        {
-            Vector3 min = S._collider.bounds.min;
-            Vector3 max = S._collider.bounds.max;
-            Vector3 loc = new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), 0);
-            return loc;
-        }
+        Vector3 min = _collider.bounds.min;
+        Vector3 max = _collider.bounds.max;
+        Vector3 loc = new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), 0);
+        return loc;
     }
 
     // Returns the bounds of the box collider
-    static public Bounds BOUNDS
+    public Bounds BOUNDS()
     {
-        get
+        if (_collider == null)
         {
-            if (S == null)
-            {
-                return new Bounds();
-            }
-
-            if (S._collider == null)
-            {
-                return new Bounds();
-            }
-
-            return S._collider.bounds;
+            return new Bounds();
         }
+
+        return _collider.bounds;
     }
 
     static public bool OOB(Vector3 worldPosition)

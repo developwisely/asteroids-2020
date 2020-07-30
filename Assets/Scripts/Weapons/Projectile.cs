@@ -41,6 +41,8 @@ namespace Arsenal
 
         private void OnCollisionEnter(Collision hit)
         {
+            if (hit.gameObject.tag == "Main Camera" || hit.gameObject.tag == "Player") return;
+
             if (!hasCollided)
             {
                 hasCollided = true;
