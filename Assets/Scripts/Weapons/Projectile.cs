@@ -7,6 +7,7 @@ namespace Arsenal
     public class Projectile : MonoBehaviour
     {
         // Settings
+        public int damage;
         public float fireRate;
         public Vector3 scale;
         public float speed;

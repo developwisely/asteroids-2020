@@ -13,9 +13,8 @@ namespace Arsenal
         public Transform leftSpawnPosition;
         public Transform rightSpawnPosition;
 
-        [HideInInspector]
         // Currently selected projectile
-        public int currentProjectile = 0;
+        public int currentProjectile = 1;
         
         private float _canFireIn;
         private Rigidbody _playerRb;

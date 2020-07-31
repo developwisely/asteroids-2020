@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Arsenal;
 using UnityEngine;
 
-public class PlasmaMissile : MonoBehaviour
+public class PlasmaMissile : Projectile
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        damage = 3;
+        fireRate = 0.25f;
+        scale = new Vector3(2.25f, 2.25f, 2.25f);
+        speed = 175;
     }
 }

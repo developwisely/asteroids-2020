@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Arsenal;
 using UnityEngine;
 
-public class SphereMissile : MonoBehaviour
+public class SphereMissile : Projectile
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        damage = 2;
+        fireRate = 0.3f;
+        scale = new Vector3(2.5f, 2.5f, 2.5f);
+        speed = 160;
     }
 }

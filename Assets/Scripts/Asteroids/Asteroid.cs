@@ -100,15 +100,15 @@ namespace Asteroids
         {
             switch (hit.gameObject.tag)
             {
-                case "projectile":
-                    // TODO: retrieve the projectile power
-                    TakeDamage(1);
+                case "Projectile":
+                    int damage = hit.gameObject.GetComponent<Arsenal.Projectile>().damage;
+                    TakeDamage(damage);
                     break;
 
-                case "player":
+                case "Player":
                     break;
 
-                case "asteroid":
+                case "Asteroid":
                     break;
 
                 default:

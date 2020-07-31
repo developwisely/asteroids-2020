@@ -86,9 +86,6 @@ namespace Asteroids
             Bounds screenBounds = _screenBounds.BOUNDS(); // Camera uses x,y
             Vector3 randomScreenLocation = _screenBounds.RANDOM_ON_SCREEN_LOCATION(); // Camera uses x,y
 
-            Debug.Log("available points " + availablePoints);
-            Debug.Log("pool count " + randomPool.Count);
-
             float x = 0;
             float z = 0;
             switch(Random.Range(0, 4))
@@ -136,10 +133,6 @@ namespace Asteroids
             _currentAsteroidPoints += newAsteroid.GetComponent<Asteroid>().pointValue;
             _currentNumAsteroids++;
 
-            Debug.Log("SPAWN NEW ASTEROID --------------------");
-            Debug.Log("Type: " + newAsteroid.name);
-            Debug.Log("_currentAsteroidPoints " + _currentAsteroidPoints);
-
             // Return a reference
             return newAsteroid;
         }
@@ -164,8 +157,6 @@ namespace Asteroids
             _currentAsteroidPoints -= pointValue;
             _currentNumAsteroids--;
             _levelManager.UpdatePlayerPoints(pointValue);
-
-            Debug.Log("_currentAsteroidPoints " + _currentAsteroidPoints);
 
             // Handle breaking into new asteroids
             if (type == AsteroidTypes.Medium || type == AsteroidTypes.Large)
@@ -201,7 +192,7 @@ namespace Asteroids
             while (breakPoolPoints > _lowestAsteroidValue && spawn)
             {
                 // Pull a random qualified asteroid
-                int randomIndex = UnityEngine.Random.Range(0, randomPool.Count);
+                int randomIndex = Random.Range(0, randomPool.Count);
 
                 // Add asteroid to spawn pool
                 asteroidsToSpawn.Add(randomPool[randomIndex]);
