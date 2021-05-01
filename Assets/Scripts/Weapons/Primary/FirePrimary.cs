@@ -14,7 +14,7 @@ namespace Arsenal
         public Transform rightSpawnPosition;
 
         // Currently selected projectile
-        public int currentProjectile = 1;
+        public int currentProjectile = 0;
         
         private float _canFireIn;
         private Rigidbody _playerRb;

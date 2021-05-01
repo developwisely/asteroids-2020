@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Arsenal;
 using UnityEngine;
 
-public class Shockwave : MonoBehaviour
+public class Shockwave : Projectile
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        damage = 100;
+        fireRate = 1f;
+        scale = new Vector3(7f, 7f, 7f);
+        speed = 100;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // add damage + gravity force on impact particle
 }

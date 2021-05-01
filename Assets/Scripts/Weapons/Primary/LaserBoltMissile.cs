@@ -7,7 +7,7 @@ public class LaserBoltMissile : Projectile
     {
         damage = 1;
         fireRate = 0.325f;
-        scale = new Vector3(2, 2, 2);
+        scale = new Vector3(2.5f, 2.5f, 2.5f);
         speed = 150;
     }
 }

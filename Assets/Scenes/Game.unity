@@ -433,7 +433,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1709230128
 MonoBehaviour:
@@ -450,6 +450,12 @@ MonoBehaviour:
   poolMultiplier: 0.25
   maxMultiplier: 0.75
   _currentLevel: 20
+--- !u!4 &1767641977 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7598066987210047108, guid: 63e47108ea5c65f43a7f4823085b3533,
+    type: 3}
+  m_PrefabInstance: {fileID: 2066345446}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2066345446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -459,7 +465,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 10029468, guid: 63e47108ea5c65f43a7f4823085b3533, type: 3}
       propertyPath: currentProjectile
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7598066987325602664, guid: 63e47108ea5c65f43a7f4823085b3533,
         type: 3}
@@ -499,7 +505,7 @@ PrefabInstance:
     - target: {fileID: 7598066987325602664, guid: 63e47108ea5c65f43a7f4823085b3533,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7598066987325602664, guid: 63e47108ea5c65f43a7f4823085b3533,
         type: 3}
@@ -521,5 +527,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9075334469588406211, guid: 63e47108ea5c65f43a7f4823085b3533,
+        type: 3}
+      propertyPath: projectiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9075334469588406211, guid: 63e47108ea5c65f43a7f4823085b3533,
+        type: 3}
+      propertyPath: projectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 8665359034466049739, guid: d2f4814ff36572348ad1e60a89b8e912,
+        type: 3}
+    - target: {fileID: 9075334469588406211, guid: 63e47108ea5c65f43a7f4823085b3533,
+        type: 3}
+      propertyPath: centerSpawnPosition
+      value: 
+      objectReference: {fileID: 1767641977}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63e47108ea5c65f43a7f4823085b3533, type: 3}

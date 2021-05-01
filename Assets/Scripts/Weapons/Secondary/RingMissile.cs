@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Arsenal;
 using UnityEngine;
 
-public class RingMissile : MonoBehaviour
+public class RingMissile : Projectile
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        damage = 100;
+        fireRate = 10f;
+        scale = new Vector3(4f, 4f, 4f);
+        speed = 150;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // make adjustments for power/speed
 }

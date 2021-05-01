@@ -47,7 +47,8 @@ namespace Arsenal
             if (!hasCollided)
             {
                 hasCollided = true;
-                impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
+                impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)) as GameObject;
+                impactParticle.transform.localScale = scale;
 
                 if (hit.gameObject.tag == "Destructible")
                 {
