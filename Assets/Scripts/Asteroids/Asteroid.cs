@@ -13,19 +13,34 @@ namespace Asteroids
         public int pointValue;
         public GameObject breakParticle;
 
+        private float _spawnInvulnerability;
         private Rigidbody _rb;
+        private MeshCollider _meshCollider;
         private AsteroidManager _asteroidManager;
 
         // Start is called before the first frame update
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
+            _meshCollider = GetComponent<MeshCollider>();
             _asteroidManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<AsteroidManager>();
             Activate();
         }
 
         private void Update()
         {
+            // Check if spawn cooldown is over, and turn on collider
+            if (_spawnInvulnerability > 0)
+            {
+                _spawnInvulnerability -= Time.deltaTime;
+            }
+            else
+            {
+                _spawnInvulnerability = 0;
+                _meshCollider.enabled = true;
+            }
+
+            // Check for max speed
             if (_rb.velocity.z > maxSpeed)
             {
                 _rb.velocity = transform.forward * maxSpeed;
@@ -34,6 +49,10 @@ namespace Asteroids
 
         private void Activate()
         {
+            // Set invulnerability spawn timer and turn off collider
+            _spawnInvulnerability = 1f;
+            _meshCollider.enabled = false;
+
             // Look within 40 degrees of center stage
             transform.LookAt(new Vector3(0, 0, 0));
             transform.Rotate(transform.rotation.x, (transform.rotation.y + Random.Range(-40.0f, 40.0f)), transform.rotation.z);
@@ -50,7 +69,7 @@ namespace Asteroids
         {
             _rb.velocity = transform.forward * Random.Range(minSpeed, maxSpeed);
 
-            // FEATURE: should we change min/max based on level as well?
+            // FEATURE: should velocity min/max change based on level as well?
         }
 
         // Applies a random tumble between minTumble and maxTumble

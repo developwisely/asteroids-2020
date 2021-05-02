@@ -124,10 +124,17 @@ namespace Asteroids
             _canSpawnIn = spawnRate;
         }
 
-        public GameObject SpawnAsteroid(GameObject asteroid, Vector3 position)
+        public GameObject SpawnAsteroid(GameObject asteroid, Vector3 position, float angle = 0f)
         {
+            // Set default rotation
+            Quaternion rotation = Quaternion.identity;
+            if (angle > 0)
+            {
+                rotation = Quaternion.Euler(new Vector3(0, angle, 0));
+            }
+
             // Spawn the new asteroid
-            GameObject newAsteroid = Instantiate(asteroid, position, Quaternion.identity) as GameObject;
+            GameObject newAsteroid = Instantiate(asteroid, position, rotation) as GameObject;
 
             // Update counters
             _currentAsteroidPoints += newAsteroid.GetComponent<Asteroid>().pointValue;
@@ -161,7 +168,7 @@ namespace Asteroids
             // Handle breaking into new asteroids
             if (type == AsteroidTypes.Medium || type == AsteroidTypes.Large)
             {
-                //BreakAsteroid(type, position, pointValue);
+                BreakAsteroid(type, position, pointValue);
             }
         }
 
@@ -169,12 +176,11 @@ namespace Asteroids
         {
             oldPosition.y = 0;
 
-            // Subtract 1 to prevent spawning the same asteroid type
+            // Subtract 1 to prevent spawning the same asteroid type (??)
             int breakPoolPoints = oldPointValue;
 
-            // 75% spawn chance first
-            //bool spawn = Random.value > 0.25f;
-            bool spawn = true;
+            // 90% spawn chance first
+            bool spawn = Random.value > 0.1f;
 
             // Get random pool & remove destroyed type
             var randomPool = GetRandomPoolToSpawn(breakPoolPoints);
@@ -197,44 +203,43 @@ namespace Asteroids
                 // Add asteroid to spawn pool
                 asteroidsToSpawn.Add(randomPool[randomIndex]);
 
-                // Update pool points and spawn chance to 50%
+                // Update pool points and spawn chance to 75%
                 breakPoolPoints -= randomPool[randomIndex].GetComponent<Asteroid>().pointValue;
-                //spawn = Random.value > 0.5f;
-                spawn = true;
+                spawn = Random.value > 0.25f;
+            }
+
+            // Set angles of breaking asteroids
+            var angle = Random.Range(0, 360);
+            var asteroidAngles = new List<int>();
+            switch (asteroidsToSpawn.Count) {
+                case 1:
+                    asteroidAngles.Add(angle);
+                    break;
+
+                case 2:
+                    asteroidAngles.Add(angle);
+                    asteroidAngles.Add(angle + 180);
+                    break;
+
+                case 3:
+                    asteroidAngles.Add(angle);
+                    asteroidAngles.Add(angle + 120);
+                    asteroidAngles.Add(angle + 240);
+                    break;
+
+                case 4:
+                    asteroidAngles.Add(angle);
+                    asteroidAngles.Add(angle + 90);
+                    asteroidAngles.Add(angle + 180);
+                    asteroidAngles.Add(angle + 270);
+                    break;
             }
 
             // Spawn the asteroids
-
-
-            /*--------------------------------
-            Vector3 boundExtents = newAsteroid.GetComponent<MeshCollider>().bounds.extents;
-            float checkRadius = Mathf.Round(Mathf.Max(Mathf.Max(boundExtents.x, boundExtents.y), boundExtents.z) * 10.0f) / 10.0f;
-            Debug.Log("Check Radius: " + checkRadius);
-            bool canSpawnHere = !Physics.CheckSphere(position, checkRadius);
-            Debug.Log("Can Spawn Here: " + canSpawnHere);
-            int attempts = 0;
-            /*
-            while (!canSpawnHere)
+            for (int a = 0; a < asteroidsToSpawn.Count; a++)
             {
-                position += new Vector3(Random.Range(-2, 2) * checkRadius * 2, 0, Random.Range(-2, 2) * checkRadius * 2);
-                position.y = 0;
-                canSpawnHere = !Physics.CheckSphere(position, checkRadius);
-                Debug.Log("Position: " + position + " Can Spawn Here: " + canSpawnHere);
-                attempts++;
-
-                if (attempts > 29)
-                {
-                    Debug.Log("Too many attempts!");
-                    Destroy(newAsteroid);
-                    break;
-                }
+                SpawnAsteroid(asteroidsToSpawn[a], oldPosition, asteroidAngles[a]);
             }
-
-            if (canSpawnHere)
-            {
-                newAsteroid.transform.position = position;
-            }
-            -----------------------------------------*/
         }
 
         public void UpdateSpawnRate(float newRate)
